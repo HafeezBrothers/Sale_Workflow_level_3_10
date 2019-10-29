@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_sales_order_form_custom" model="ir.ui.view">
+            <field name="name">sale.order.form11</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/header" position="replace">
+                <header>
+                    <button name="%(sale.action_view_sale_advance_payment_inv)d" string="Create Invoice" type="action" class="btn-primary" attrs="{'invisible': [('invoice_status', '!=', 'to invoice')]}"/>
+                    <button name="%(sale.action_view_sale_advance_payment_inv)d" string="Create Invoice" type="action" context="{'default_advance_payment_method': 'percentage'}" attrs="{'invisible': ['|',('invoice_status', '!=', 'no'), ('state', '!=', 'sale')]}"/>
+                    <button name="action_quotation_send" string="Send by Email" type="object" states="draft" class="btn-primary"/>
+                    <button name="print_quotation" string="Print" type="object" states="draft" class="btn-primary" invisible="1"/>
+                    
+                    <button name="buton_app1" class="oe_highlight" type="object" states="draft,sent" string="1st Approval" groups="so_workflows_level_3.apr1" />
+                    <button name="buton_app2" class="oe_highlight" type="object" states="appro2" string="2nd Approval" groups="so_workflows_level_3.apr2" />
+
+                    <button name="approved1" class="oe_highlight" type="object" states="approval" string="Final Approved" groups="so_workflows_level_3.final_app" />
+
+                    <button name="print_quotation" string="Print" invisible="1" type="object" states="sent,sale"/>
+                    <button name="action_quotation_send" string="Send by Email" type="object" states="sent,sale"/>
+                    <button name="action_cancel" states="draft,sent,sale" type="object" string="Cancel"/>
+                    <button name="action_draft" states="cancel" type="object" string="Set to Quotation"/>
+                    <button name="action_done" type="object" string="Lock" states="sale" help="If the sale is locked, you can not modify it anymore. However, you will still be able to invoice or deliver."/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,appro2,approval,sent,sale"/>
+                </header>
+                    
+                </xpath>
+                
+                
+            </field>
+        </record>
+    </data>
+</odoo>
